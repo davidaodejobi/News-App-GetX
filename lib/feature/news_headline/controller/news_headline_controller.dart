@@ -14,7 +14,7 @@ class NewsHeadlineController extends GetxController {
     loadNewsLine();
   }
 
-  RxList<Article>? articles;
+  late RxList<Article> articles;
 
   RxBool isLoading = false.obs;
 
@@ -28,7 +28,7 @@ class NewsHeadlineController extends GetxController {
     // ignore: unnecessary_null_comparison
     if (result != null) {
       articles = result.obs;
-      print(articles);
+      // print(articles);
       update();
     } else {
       print('An error occurred');

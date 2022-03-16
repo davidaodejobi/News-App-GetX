@@ -20,7 +20,7 @@ class NewsRepositoryImpl implements NewsRepository {
     try {
       final response =
           await _httpService!.getRequest('top-headlines?country=us');
-      // print(response.data);
+      print(response.data);
       final parsedResponse = NewsResponse.fromJson(response.data);
 
       return parsedResponse.articles ?? [];
@@ -39,7 +39,7 @@ class NewsRepositoryImpl implements NewsRepository {
   Future<List<Article>> getSearchNews(String query) async {
     try {
       final response =
-          await _httpService!.getRequest('top-headlines?country=us');
+          await _httpService!.getRequest('everything?q=$query&language=en');
       final parsedResponse = NewsResponse.fromJson(response.data);
       return parsedResponse.articles as List<Article>;
     } on Exception catch (e) {

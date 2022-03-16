@@ -22,11 +22,11 @@ class MyApp extends StatelessWidget {
       getPages: [
         GetPage(
             name: "/news_headline",
-            page: () => const NewsHeadlineView(),
+            page: () => NewsHeadlineView(),
             binding: NewsHeadlineBinding()),
         GetPage(
           name: "/search_news",
-          page: () => const SearchNewsView(),
+          page: () => SearchNewsView(),
           binding: SearchNewsBinding(),
         ),
       ],

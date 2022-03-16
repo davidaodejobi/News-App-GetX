@@ -42,5 +42,6 @@ class HttpServiceImpl implements HttpService {
     _dio = Dio(BaseOptions(baseUrl: baseUrl, headers: {
       'Authorization': 'Bearer $apiKey',
     }));
+    // initializeInterceptors();
   }
 }

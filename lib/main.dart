@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:news_app_getx/core/wigets/bottom_nav_bar.dart';
 import 'package:news_app_getx/feature/search_news/binding/search_news_binding.dart';
 
 import 'feature/news_headline/binding/news_deadline_binding.dart';
@@ -19,18 +20,19 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      getPages: [
-        GetPage(
-            name: "/news_headline",
-            page: () => NewsHeadlineView(),
-            binding: NewsHeadlineBinding()),
-        GetPage(
-          name: "/search_news",
-          page: () => SearchNewsView(),
-          binding: SearchNewsBinding(),
-        ),
-      ],
-      initialRoute: "/news_headline",
+      home: BottomNavBar(),
+      // getPages: [
+      //   GetPage(
+      //       name: "/news_headline",
+      //       page: () => NewsHeadlineView(),
+      //       binding: NewsHeadlineBinding()),
+      //   GetPage(
+      //     name: "/search_news",
+      //     page: () => SearchNewsView(),
+      //     binding: SearchNewsBinding(),
+      //   ),
+      // ],
+      // initialRoute: "/news_headline",
     );
   }
 }

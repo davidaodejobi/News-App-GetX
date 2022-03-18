@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:news_app_getx/core/model/tab_manager.dart';
+import 'package:news_app_getx/feature/description.dart';
+import 'package:news_app_getx/feature/home/view/home_view.dart';
 import 'package:websafe_svg/websafe_svg.dart';
 
 import '../../feature/news_headline/controller/news_headline_controller.dart';
@@ -26,11 +28,9 @@ class BottomNavBar extends StatelessWidget {
           body: IndexedStack(
             index: tabManager.currentPage!.value,
             children: [
-              Container(
-                color: Colors.red,
-              ),
-              NewsHeadlineView(),
+              HomeView(),
               SearchNewsView(),
+              Container(),
             ],
           ),
           bottomNavigationBar: BottomNavigationBar(

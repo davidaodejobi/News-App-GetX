@@ -37,6 +37,7 @@ class SearchNewsController {
     if (result != null) {
       articles = result.obs;
     } else {
+      // ignore: avoid_print
       print('An error occurred');
     }
   }

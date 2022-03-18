@@ -1,60 +1,127 @@
-// ignore_for_file: unnecessary_null_comparison, prefer_const_constructors
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:news_app_getx/feature/search_news/controller/search_news_controller.dart';
+import 'package:news_app_getx/feature/description.dart';
+import 'package:news_app_getx/feature/news_headline/controller/news_headline_controller.dart';
 import 'package:websafe_svg/websafe_svg.dart';
 
-import '../../description.dart';
+class HomeView extends StatelessWidget {
+  HomeView({Key? key}) : super(key: key);
 
-class SearchNewsView extends StatelessWidget {
-  SearchNewsView({Key? key}) : super(key: key);
-
-  final controller = Get.find<SearchNewsController>();
+  final controller = Get.find<NewsHeadlineController>();
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(
-              horizontal: 20,
-              vertical: 20,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(
+          horizontal: 20.0,
+        ),
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.symmetric(
+                vertical: 20.0,
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  WebsafeSvg.asset(
+                    'assets/icons/newsLogo 1.svg',
+                    width: 30,
+                  ),
+                  const SizedBox(
+                    width: 10,
+                  ),
+                  Text(
+                    'News 24',
+                    style: Theme.of(context).textTheme.headline6!.copyWith(
+                        color: Colors.black, fontWeight: FontWeight.bold),
+                  )
+                ],
+              ),
             ),
-            child: SearchNewsTextField(controller: controller),
-          ),
-          Expanded(child: Obx(
-            () {
-              return controller.isLoading.isTrue
-                  ? const Center(
-                      child: CircularProgressIndicator(),
-                    )
-                  : controller.articles.isEmpty
-                      ? const Center(
-                          child: Text('No news found'),
-                        )
-                      : Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                          child: ListOfSearchedNews(controller: controller),
-                        );
-            },
-          ))
-        ],
+            Wrap(
+              spacing: 10,
+              children: const [
+                Chip(
+                  label: Padding(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 10,
+                    ),
+                    child: Text('Top'),
+                  ),
+                ),
+                Chip(
+                  label: Padding(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 10,
+                    ),
+                    child: Text('World'),
+                  ),
+                ),
+                Chip(
+                  label: Padding(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 10,
+                    ),
+                    child: Text('Politics'),
+                  ),
+                ),
+                Chip(
+                  label: Padding(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 10,
+                    ),
+                    child: Text('Entertainment'),
+                  ),
+                ),
+                Chip(
+                  label: Padding(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 10,
+                    ),
+                    child: Text('Sport'),
+                  ),
+                ),
+                Chip(
+                  label: Padding(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 10,
+                    ),
+                    child: Text('Sport'),
+                  ),
+                ),
+              ],
+            ),
+            // const SizedBox(
+            //   height: 10,
+            // ),
+            Expanded(
+              child: Obx(() {
+                if (controller.isLoading.isTrue) {
+                  return const Center(
+                    child: CircularProgressIndicator(),
+                  );
+                } else {
+                  return ListOfHeadLineNews(controller: controller);
+                }
+              }),
+            )
+          ],
+        ),
       ),
     );
   }
 }
 
-class ListOfSearchedNews extends StatelessWidget {
-  const ListOfSearchedNews({
+class ListOfHeadLineNews extends StatelessWidget {
+  const ListOfHeadLineNews({
     Key? key,
     required this.controller,
   }) : super(key: key);
 
-  final SearchNewsController controller;
+  final NewsHeadlineController controller;
 
   @override
   Widget build(BuildContext context) {
@@ -83,9 +150,12 @@ class ListOfSearchedNews extends StatelessWidget {
                       fit: BoxFit.cover,
                       placeholder: (context, url) =>
                           const Center(child: CircularProgressIndicator()),
-                      errorWidget: (context, url, error) => Image.asset(
-                        'assets/images/404.jfif',
-                        fit: BoxFit.fill,
+                      errorWidget: (context, url, error) => Hero(
+                        tag: controller.articles[i].url!,
+                        child: Image.asset(
+                          'assets/images/404.jfif',
+                          fit: BoxFit.fill,
+                        ),
                       ),
                     ),
                     height: 140,
@@ -160,46 +230,5 @@ class ListOfSearchedNews extends StatelessWidget {
         },
         separatorBuilder: (ctx, i) => const Divider(),
         itemCount: controller.articles.length);
-  }
-}
-
-class SearchNewsTextField extends StatelessWidget {
-  const SearchNewsTextField({
-    Key? key,
-    required this.controller,
-  }) : super(key: key);
-
-  final SearchNewsController controller;
-
-  @override
-  Widget build(BuildContext context) {
-    return TextField(
-      controller: controller.searchTextController,
-      decoration: InputDecoration(
-        hintText: 'Search',
-        filled: true,
-        hintStyle: Theme.of(context).textTheme.bodyText1!.copyWith(
-              color: Color(0xFF909090),
-              fontSize: 18,
-            ),
-        fillColor: Color(0xFFEEEEEE),
-        prefixIcon: Padding(
-          padding: const EdgeInsets.all(20 * 0.75),
-          child: WebsafeSvg.asset('assets/icons/search_unselected.svg',
-              color: const Color(0xFF909090)),
-        ),
-        alignLabelWithHint: true,
-        suffixIcon: Padding(
-          padding: const EdgeInsets.all(20 * 0.75),
-          child: WebsafeSvg.asset(
-            'assets/icons/cancel.svg',
-          ),
-        ),
-        border: const OutlineInputBorder(
-          borderRadius: BorderRadius.all(Radius.circular(30)),
-          borderSide: BorderSide.none,
-        ),
-      ),
-    );
   }
 }

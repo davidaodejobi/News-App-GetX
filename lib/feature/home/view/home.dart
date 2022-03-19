@@ -5,10 +5,22 @@ import 'package:news_app_getx/feature/description.dart';
 import 'package:news_app_getx/feature/news_headline/controller/news_headline_controller.dart';
 import 'package:websafe_svg/websafe_svg.dart';
 
+import '../controller/home_view_controller.dart';
+
 class HomeView extends StatelessWidget {
   HomeView({Key? key}) : super(key: key);
 
-  final controller = Get.find<NewsHeadlineController>();
+  final controller = Get.find<HomeViewController>();
+
+  final listOfCategory = [
+    'business',
+    'entertainment',
+    'general',
+    'health',
+    'science',
+    'sports',
+    'technology'
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -43,55 +55,85 @@ class HomeView extends StatelessWidget {
             ),
             Wrap(
               spacing: 10,
-              children: const [
-                Chip(
-                  label: Padding(
-                    padding: EdgeInsets.symmetric(
-                      horizontal: 10,
+              children: [
+                for (final category in listOfCategory)
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                      vertical: 10.0,
                     ),
-                    child: Text('Top'),
-                  ),
-                ),
-                Chip(
-                  label: Padding(
-                    padding: EdgeInsets.symmetric(
-                      horizontal: 10,
+                    child: GestureDetector(
+                      onTap: () => controller.loadCategoryNewsLine(category),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          color: Colors.grey[200],
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 10.0,
+                            vertical: 5.0,
+                          ),
+                          child: Text(
+                            category,
+                            style: Theme.of(context)
+                                .textTheme
+                                .headline6!
+                                .copyWith(
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                      ),
                     ),
-                    child: Text('World'),
                   ),
-                ),
-                Chip(
-                  label: Padding(
-                    padding: EdgeInsets.symmetric(
-                      horizontal: 10,
-                    ),
-                    child: Text('Politics'),
-                  ),
-                ),
-                Chip(
-                  label: Padding(
-                    padding: EdgeInsets.symmetric(
-                      horizontal: 10,
-                    ),
-                    child: Text('Entertainment'),
-                  ),
-                ),
-                Chip(
-                  label: Padding(
-                    padding: EdgeInsets.symmetric(
-                      horizontal: 10,
-                    ),
-                    child: Text('Sport'),
-                  ),
-                ),
-                Chip(
-                  label: Padding(
-                    padding: EdgeInsets.symmetric(
-                      horizontal: 10,
-                    ),
-                    child: Text('Sport'),
-                  ),
-                ),
+                // Chip(
+                //   label: Padding(
+                //     padding: EdgeInsets.symmetric(
+                //       horizontal: 10,
+                //     ),
+                //     child: Text('Top'),
+                //   ),
+                // ),
+                // Chip(
+                //   label: Padding(
+                //     padding: EdgeInsets.symmetric(
+                //       horizontal: 10,
+                //     ),
+                //     child: Text('World'),
+                //   ),
+                // ),
+                // Chip(
+                //   label: Padding(
+                //     padding: EdgeInsets.symmetric(
+                //       horizontal: 10,
+                //     ),
+                //     child: Text('Politics'),
+                //   ),
+                // ),
+                // Chip(
+                //   label: Padding(
+                //     padding: EdgeInsets.symmetric(
+                //       horizontal: 10,
+                //     ),
+                //     child: Text('Entertainment'),
+                //   ),
+                // ),
+                // Chip(
+                //   label: Padding(
+                //     padding: EdgeInsets.symmetric(
+                //       horizontal: 10,
+                //     ),
+                //     child: Text('Sport'),
+                //   ),
+                // ),
+                // Chip(
+                //   label: Padding(
+                //     padding: EdgeInsets.symmetric(
+                //       horizontal: 10,
+                //     ),
+                //     child: Text('Sport'),
+                //   ),
+                // ),
               ],
             ),
             // const SizedBox(
@@ -121,7 +163,7 @@ class ListOfHeadLineNews extends StatelessWidget {
     required this.controller,
   }) : super(key: key);
 
-  final NewsHeadlineController controller;
+  final HomeViewController controller;
 
   @override
   Widget build(BuildContext context) {

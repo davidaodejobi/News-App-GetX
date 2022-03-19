@@ -5,6 +5,7 @@ import 'package:news_app_getx/feature/description.dart';
 import 'package:news_app_getx/feature/home/view/home_view.dart';
 import 'package:websafe_svg/websafe_svg.dart';
 
+import '../../feature/home/controller/home_view_controller.dart';
 import '../../feature/news_headline/controller/news_headline_controller.dart';
 import '../../feature/news_headline/view/news_headline_view.dart';
 import '../../feature/search_news/controller/search_news_controller.dart';
@@ -16,7 +17,7 @@ class BottomNavBar extends StatelessWidget {
   BottomNavBar({Key? key}) : super(key: key);
 
   final tabManager = Get.put(TabManager(), permanent: false);
-  final controller = Get.lazyPut(() => NewsHeadlineController());
+  final controller = Get.lazyPut(() => HomeViewController());
   final controller1 = Get.lazyPut(() => SearchNewsController());
   final controller2 = Get.lazyPut(() => NewsRepositoryImpl());
 

@@ -47,4 +47,17 @@ class NewsRepositoryImpl implements NewsRepository {
       return Future.error(e);
     }
   }
+
+  @override
+  Future<List<Article>> getNewsHeadlineByCategory(String category) async {
+    try {
+      final response = await _httpService!
+          .getRequest('top-headlines?country=us&category=$category');
+      final parsedResponse = NewsResponse.fromJson(response.data);
+      return parsedResponse.articles as List<Article>;
+    } on Exception catch (e) {
+      print(e);
+      return Future.error(e);
+    }
+  }
 }

@@ -6,22 +6,22 @@ import 'package:news_app_getx/core/repository/news_repository.dart';
 
 import '../../../core/model/article.dart';
 
-class NewsHeadlineController extends GetxController {
+class HomeController extends GetxController {
   NewsRepository? _newsRepository;
 
-  NewsHeadlineController() {
+  HomeController() {
     _newsRepository = Get.find<NewsRepositoryImpl>();
-    loadNewsLine();
+    loadCategoryNewsLine('general');
   }
 
   late RxList<Article> articles;
 
   RxBool isLoading = false.obs;
 
-  loadNewsLine() async {
+  loadCategoryNewsLine(String category) async {
     showLoading();
 
-    final result = await _newsRepository!.getNewsHeadline();
+    final result = await _newsRepository!.getNewsHeadlineByCategory(category);
 
     hideLoading();
 
@@ -44,4 +44,14 @@ class NewsHeadlineController extends GetxController {
     //isLoading = false.obs; another way to do it
     isLoading.toggle();
   }
+
+  RxList<String> listOfCategory = [
+    'business',
+    'entertainment',
+    'general',
+    'health',
+    'science',
+    'sports',
+    'technology'
+  ].obs;
 }

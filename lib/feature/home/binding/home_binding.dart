@@ -3,10 +3,10 @@ import 'package:news_app_getx/core/repository/new_repository_impl.dart';
 
 import '../controller/home_view_controller.dart';
 
-class HomeViewBinding extends Bindings {
+class HomeBinding extends Bindings {
   @override
   void dependencies() {
     Get.put(NewsRepositoryImpl());
-    Get.put(HomeViewController());
+    Get.put(HomeController());
   }
 }

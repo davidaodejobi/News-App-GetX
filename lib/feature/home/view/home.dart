@@ -2,26 +2,21 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:news_app_getx/feature/description.dart';
-import 'package:news_app_getx/feature/news_headline/controller/news_headline_controller.dart';
 import 'package:websafe_svg/websafe_svg.dart';
 
 import '../controller/home_view_controller.dart';
 
-class HomeView extends StatelessWidget {
-  HomeView({Key? key}) : super(key: key);
+class Home extends StatefulWidget {
+  Home({Key? key}) : super(key: key);
 
-  final controller = Get.find<HomeViewController>();
+  @override
+  State<Home> createState() => _HomeState();
+}
 
-  final listOfCategory = [
-    'business',
-    'entertainment',
-    'general',
-    'health',
-    'science',
-    'sports',
-    'technology'
-  ];
+class _HomeState extends State<Home> {
+  final controller = Get.find<HomeController>();
 
+  String? selectedCategory;
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -56,8 +51,37 @@ class HomeView extends StatelessWidget {
             Wrap(
               spacing: 10,
               children: [
-                for (final category in listOfCategory)
-                  Padding(
+                for (int i = 0; i < controller.listOfCategory.length; i++)
+                  ChoiceChip(
+                    disabledColor: const Color(0xFFEEEEEE),
+                    selectedColor: const Color(0xFF180E19),
+                    label: Padding(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 10,
+                      ),
+                      child: Text(
+                        controller.listOfCategory[i].capitalizeFirst!,
+                        style: Theme.of(context).textTheme.bodyText1!.copyWith(
+                              color: selectedCategory ==
+                                      controller.listOfCategory[i]
+                                  ? Colors.white
+                                  : Colors.black,
+                            ),
+                      ),
+                    ),
+                    selected: selectedCategory == controller.listOfCategory[i],
+                    onSelected: (bool selected) {
+                      controller
+                          .loadCategoryNewsLine(controller.listOfCategory[i]);
+                      setState(() {
+                        selectedCategory = controller.listOfCategory[i];
+                      });
+                    },
+                  ),
+              ],
+            ),
+            /*
+             Padding(
                     padding: const EdgeInsets.symmetric(
                       vertical: 10.0,
                     ),
@@ -86,59 +110,7 @@ class HomeView extends StatelessWidget {
                       ),
                     ),
                   ),
-                // Chip(
-                //   label: Padding(
-                //     padding: EdgeInsets.symmetric(
-                //       horizontal: 10,
-                //     ),
-                //     child: Text('Top'),
-                //   ),
-                // ),
-                // Chip(
-                //   label: Padding(
-                //     padding: EdgeInsets.symmetric(
-                //       horizontal: 10,
-                //     ),
-                //     child: Text('World'),
-                //   ),
-                // ),
-                // Chip(
-                //   label: Padding(
-                //     padding: EdgeInsets.symmetric(
-                //       horizontal: 10,
-                //     ),
-                //     child: Text('Politics'),
-                //   ),
-                // ),
-                // Chip(
-                //   label: Padding(
-                //     padding: EdgeInsets.symmetric(
-                //       horizontal: 10,
-                //     ),
-                //     child: Text('Entertainment'),
-                //   ),
-                // ),
-                // Chip(
-                //   label: Padding(
-                //     padding: EdgeInsets.symmetric(
-                //       horizontal: 10,
-                //     ),
-                //     child: Text('Sport'),
-                //   ),
-                // ),
-                // Chip(
-                //   label: Padding(
-                //     padding: EdgeInsets.symmetric(
-                //       horizontal: 10,
-                //     ),
-                //     child: Text('Sport'),
-                //   ),
-                // ),
-              ],
-            ),
-            // const SizedBox(
-            //   height: 10,
-            // ),
+            */
             Expanded(
               child: Obx(() {
                 if (controller.isLoading.isTrue) {
@@ -163,7 +135,7 @@ class ListOfHeadLineNews extends StatelessWidget {
     required this.controller,
   }) : super(key: key);
 
-  final HomeViewController controller;
+  final HomeController controller;
 
   @override
   Widget build(BuildContext context) {

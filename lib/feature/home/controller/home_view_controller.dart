@@ -6,10 +6,10 @@ import 'package:news_app_getx/core/repository/news_repository.dart';
 
 import '../../../core/model/article.dart';
 
-class HomeViewController extends GetxController {
+class HomeController extends GetxController {
   NewsRepository? _newsRepository;
 
-  HomeViewController() {
+  HomeController() {
     _newsRepository = Get.find<NewsRepositoryImpl>();
     loadCategoryNewsLine('general');
   }
@@ -44,4 +44,14 @@ class HomeViewController extends GetxController {
     //isLoading = false.obs; another way to do it
     isLoading.toggle();
   }
+
+  RxList<String> listOfCategory = [
+    'business',
+    'entertainment',
+    'general',
+    'health',
+    'science',
+    'sports',
+    'technology'
+  ].obs;
 }

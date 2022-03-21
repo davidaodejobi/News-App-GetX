@@ -50,68 +50,72 @@ class Description extends StatelessWidget {
         ],
       ),
       body: SafeArea(
-        child: Column(
-          children: [
-            SizedBox(
-              child: CachedNetworkImage(
-                imageUrl: imageUrl,
-                fit: BoxFit.cover,
-                placeholder: (context, url) =>
-                    const Center(child: CircularProgressIndicator()),
-                errorWidget: (context, url, error) => Hero(
-                  tag: tag,
-                  child: Image.asset(
-                    'assets/images/404.jfif',
-                    fit: BoxFit.fill,
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              SizedBox(
+                child: CachedNetworkImage(
+                  imageUrl: imageUrl,
+                  fit: BoxFit.cover,
+                  placeholder: (context, url) =>
+                      const Center(child: CircularProgressIndicator()),
+                  errorWidget: (context, url, error) => Hero(
+                    tag: tag,
+                    child: Image.asset(
+                      'assets/images/404.jfif',
+                      fit: BoxFit.fill,
+                    ),
                   ),
                 ),
+                height: size.height * 0.3,
               ),
-              height: size.height * 0.3,
-            ),
-            Padding(
-              padding: const EdgeInsets.all(20.0),
-              child: Text(
-                title,
-                style: Theme.of(context)
-                    .textTheme
-                    .headline6!
-                    .copyWith(overflow: TextOverflow.ellipsis),
-                maxLines: 4,
+              Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: Text(
+                  title,
+                  style: Theme.of(context)
+                      .textTheme
+                      .headline6!
+                      .copyWith(overflow: TextOverflow.ellipsis),
+                  maxLines: 4,
+                ),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(20.0),
-              child: Row(
-                children: [
-                  const CircleAvatar(
-                    radius: 25,
-                    child: Icon(Icons.person),
-                  ),
-                  const SizedBox(
-                    width: 20 / 2,
-                  ),
-                  Text('By $author',
-                      style: Theme.of(context).textTheme.bodyText1!.copyWith(
-                            color: Colors.grey,
-                          )),
-                  const Spacer(),
-                  Text('1m ago',
-                      style: Theme.of(context).textTheme.bodyText1!.copyWith(
-                            color: Colors.grey,
-                          )),
-                ],
+              Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: Row(
+                  children: [
+                    const CircleAvatar(
+                      radius: 25,
+                      child: Icon(Icons.person),
+                    ),
+                    const SizedBox(
+                      width: 20 / 2,
+                    ),
+                    Text(
+                        'By ${author.characters.length > 20 ? author.substring(0, 20) + '...' : author}',
+                        style: Theme.of(context).textTheme.bodyText1!.copyWith(
+                              color: Colors.grey,
+                            )),
+                    const Spacer(),
+                    Text('1m ago',
+                        style: Theme.of(context).textTheme.bodyText1!.copyWith(
+                              color: Colors.grey,
+                            )),
+                  ],
+                ),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 20.0,
+              Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 20.0,
+                ),
+                child: Text(
+                    "$content Sed libero. In ac felis quis tortor malesuada pretium. Morbi vestibulum volutpat enim. Morbi mollis tellus ac sapien. Proin sapien ipsum, porta a, auctor quis, euismod ut, mi Sed libero. In ac felis quis tortor malesuada pretium. Morbi vestibulum volutpat enim. Morbi mollis tellus ac sapien. Proin sapien ipsum, porta a, auctor quis, euismod ut, mi n Sed libero. In ac felis quis tortor malesuada pretium. Morbi vestibulum volutpat enim. Morbi mollis tellus ac sapien. Proin sapien ipsum, porta a, auctor quis, euismod ut, mi Sed libero. In ac felis quis tortor malesuada pretium. Morbi vestibulum volutpat enim. Morbi mollis tellus ac sapien. Proin sapien ipsum, porta a, auctor quis, euismod ut, mi.",
+                    style: Theme.of(context).textTheme.headlineSmall!.copyWith(
+                          fontSize: 18,
+                        )),
               ),
-              child: Text(content,
-                  style: Theme.of(context).textTheme.headlineSmall!.copyWith(
-                        fontSize: 18,
-                      )),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
